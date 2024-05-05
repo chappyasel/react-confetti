@@ -42,7 +42,12 @@ export interface IConfettiOptions {
    * How fast the confetti is emitted vertically
    * @default 10
    */
-  initialVelocityY: {min: number, max: number} | number
+  initialVelocityY: { min: number, max: number } | number
+  /**
+   * (CUSTOM) If true, the confetti will be rendered with basic floating
+   * @default false
+   */
+  basicFloat: boolean
   /**
    * Array of colors to choose from.
    */
@@ -106,6 +111,7 @@ export const confettiDefaults: Pick<IConfettiOptions, Exclude<keyof IConfettiOpt
   gravity: 0.1,
   initialVelocityX: 4,
   initialVelocityY: 10,
+  basicFloat: false,
   colors: [
     '#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5',
     '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4CAF50',

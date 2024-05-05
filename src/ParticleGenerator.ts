@@ -50,7 +50,7 @@ export default class ParticleGenerator implements IParticleGenerator {
 
   getParticle = () => {
     const newParticleX = randomRange(this.x, this.w + this.x)
-    const newParticleY = randomRange(this.y, this.h + this.y)
+    const newParticleY = randomRange(-20 + this.y, -20 + this.h + this.y)
     return new Particle(this.context, this.getOptions, newParticleX, newParticleY)
   }
 
@@ -111,7 +111,7 @@ export default class ParticleGenerator implements IParticleGenerator {
       // Update each particle's position
       p.update()
       // Prune the off-canvas particles
-      if(p.y > canvas.height || p.y < -100 || p.x > canvas.width + 100 || p.x < -100) {
+      if(p.y > (canvas.height + 100) || p.y < -100 || p.x > (canvas.width + 100) || p.x < -100) {
         if(recycle && activeCount <= numberOfPieces) {
           // Replace the particle with a brand new one
           this.particles[i] = this.getParticle()

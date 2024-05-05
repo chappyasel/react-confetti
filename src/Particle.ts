@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { randomRange, randomInt, degreesToRads } from './utils'
 import { IConfettiOptions } from './Confetti'
 
@@ -10,6 +11,7 @@ export enum ParticleShape {
 enum RotationDirection {
   Positive = 1,
   Negative = -1,
+  None = 0,
 }
 
 export default class Particle {
@@ -19,6 +21,7 @@ export default class Particle {
       colors,
       initialVelocityX,
       initialVelocityY,
+      basicFloat,
     } = this.getOptions()
     this.context = context
     this.x = x
@@ -30,10 +33,13 @@ export default class Particle {
     this.vy = typeof initialVelocityY === 'number' ? randomRange(-initialVelocityY, 0) : randomRange(initialVelocityY.min, initialVelocityY.max)
     this.shape = randomInt(0, 2)
     this.angle = degreesToRads(randomRange(0, 360))
-    this.angularSpin = randomRange(-0.2, 0.2)
+    this.angularSpin = randomRange(-0.1, 0.1)
     this.color = colors[Math.floor(Math.random() * colors.length)]
-    this.rotateY = randomRange(0, 1)
+    this.rotateY = basicFloat ? 1 : randomRange(0, 1)
     this.rotationDirection = randomRange(0, 1) ? RotationDirection.Positive : RotationDirection.Negative
+    if(basicFloat) {
+      this.rotationDirection = RotationDirection.None
+    }
   }
 
   context: CanvasRenderingContext2D
