@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.ParticleShape = void 0;
+exports["default"] = void 0;
 
 var _utils = require("./utils");
 
@@ -14,15 +14,6 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var ParticleShape;
-exports.ParticleShape = ParticleShape;
-
-(function (ParticleShape) {
-  ParticleShape[ParticleShape["Circle"] = 0] = "Circle";
-  ParticleShape[ParticleShape["Square"] = 1] = "Square";
-  ParticleShape[ParticleShape["Strip"] = 2] = "Strip";
-})(ParticleShape || (exports.ParticleShape = ParticleShape = {}));
 
 var RotationDirection;
 
@@ -72,6 +63,7 @@ var Particle = /*#__PURE__*/function () {
         colors = _this$getOptions.colors,
         initialVelocityX = _this$getOptions.initialVelocityX,
         initialVelocityY = _this$getOptions.initialVelocityY,
+        numberOfShapes = _this$getOptions.numberOfShapes,
         basicFloat = _this$getOptions.basicFloat;
 
     this.context = context;
@@ -82,7 +74,7 @@ var Particle = /*#__PURE__*/function () {
     this.radius = (0, _utils.randomRange)(5, 10);
     this.vx = typeof initialVelocityX === 'number' ? (0, _utils.randomRange)(-initialVelocityX, initialVelocityX) : (0, _utils.randomRange)(initialVelocityX.min, initialVelocityX.max);
     this.vy = typeof initialVelocityY === 'number' ? (0, _utils.randomRange)(-initialVelocityY, 0) : (0, _utils.randomRange)(initialVelocityY.min, initialVelocityY.max);
-    this.shape = (0, _utils.randomInt)(0, 2);
+    this.shape = (0, _utils.randomInt)(0, numberOfShapes);
     this.angle = (0, _utils.degreesToRads)((0, _utils.randomRange)(0, 360));
     this.angularSpin = (0, _utils.randomRange)(-0.1, 0.1);
     this.color = colors[Math.floor(Math.random() * colors.length)];
@@ -133,10 +125,10 @@ var Particle = /*#__PURE__*/function () {
       this.context.lineWidth = 2;
 
       if (drawShape && typeof drawShape === 'function') {
-        drawShape.call(this, this.context);
+        drawShape.call(this, this.context, this);
       } else {
         switch (this.shape) {
-          case ParticleShape.Circle:
+          case 0:
             {
               this.context.beginPath();
               this.context.arc(0, 0, this.radius, 0, 2 * Math.PI);
@@ -144,13 +136,13 @@ var Particle = /*#__PURE__*/function () {
               break;
             }
 
-          case ParticleShape.Square:
+          case 1:
             {
               this.context.fillRect(-this.w / 2, -this.h / 2, this.w, this.h);
               break;
             }
 
-          case ParticleShape.Strip:
+          default:
             {
               this.context.fillRect(-this.w / 6, -this.h / 2, this.w / 3, this.h);
               break;

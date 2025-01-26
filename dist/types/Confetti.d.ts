@@ -1,5 +1,6 @@
 import { IRect } from './Rect';
 import ParticleGenerator from './ParticleGenerator';
+import Particle from './Particle';
 export interface IConfettiOptions {
     /**
      * Width of the component
@@ -16,6 +17,11 @@ export interface IConfettiOptions {
      * @default 200
      */
     numberOfPieces: number;
+    /**
+     * (CUSTOM) Number of shapes to choose from.
+     * @default 3
+     */
+    numberOfShapes: number;
     /**
      * Slows movement of pieces. (lower number = slower confetti)
      * @default 0.99
@@ -99,7 +105,7 @@ export interface IConfettiOptions {
     /**
      * Function to draw your own confetti shapes.
      */
-    drawShape?: (context: CanvasRenderingContext2D) => void;
+    drawShape?: (context: CanvasRenderingContext2D, particle: Particle) => void;
     /**
      * Function called when all confetti has fallen off-canvas.
      */

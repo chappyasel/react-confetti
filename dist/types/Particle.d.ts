@@ -1,9 +1,4 @@
 import { IConfettiOptions } from './Confetti';
-export declare enum ParticleShape {
-    Circle = 0,
-    Square = 1,
-    Strip = 2
-}
 declare enum RotationDirection {
     Positive = 1,
     Negative = -1,
@@ -19,7 +14,7 @@ export default class Particle {
     h: number;
     vx: number;
     vy: number;
-    shape: ParticleShape;
+    shape: number;
     angle: number;
     angularSpin: number;
     color: string;

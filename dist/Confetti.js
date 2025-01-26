@@ -27,6 +27,7 @@ var confettiDefaults = {
   width: typeof window !== 'undefined' ? window.innerWidth : 300,
   height: typeof window !== 'undefined' ? window.innerHeight : 200,
   numberOfPieces: 200,
+  numberOfShapes: 3,
   friction: 0.99,
   wind: 0,
   gravity: 0.1,

@@ -389,6 +389,7 @@ var confettiDefaults = {
   width: typeof window !== 'undefined' ? window.innerWidth : 300,
   height: typeof window !== 'undefined' ? window.innerHeight : 200,
   numberOfPieces: 200,
+  numberOfShapes: 3,
   friction: 0.99,
   wind: 0,
   gravity: 0.1,
@@ -523,12 +524,11 @@ var Confetti = /*#__PURE__*/function () {
 /*!*************************!*\
   !*** ./src/Particle.ts ***!
   \*************************/
-/*! exports provided: ParticleShape, default */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ParticleShape", function() { return ParticleShape; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Particle; });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/utils.ts");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -540,14 +540,6 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-
-var ParticleShape;
-
-(function (ParticleShape) {
-  ParticleShape[ParticleShape["Circle"] = 0] = "Circle";
-  ParticleShape[ParticleShape["Square"] = 1] = "Square";
-  ParticleShape[ParticleShape["Strip"] = 2] = "Strip";
-})(ParticleShape || (ParticleShape = {}));
 
 var RotationDirection;
 
@@ -597,6 +589,7 @@ var Particle = /*#__PURE__*/function () {
         colors = _this$getOptions.colors,
         initialVelocityX = _this$getOptions.initialVelocityX,
         initialVelocityY = _this$getOptions.initialVelocityY,
+        numberOfShapes = _this$getOptions.numberOfShapes,
         basicFloat = _this$getOptions.basicFloat;
 
     this.context = context;
@@ -607,7 +600,7 @@ var Particle = /*#__PURE__*/function () {
     this.radius = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["randomRange"])(5, 10);
     this.vx = typeof initialVelocityX === 'number' ? Object(_utils__WEBPACK_IMPORTED_MODULE_0__["randomRange"])(-initialVelocityX, initialVelocityX) : Object(_utils__WEBPACK_IMPORTED_MODULE_0__["randomRange"])(initialVelocityX.min, initialVelocityX.max);
     this.vy = typeof initialVelocityY === 'number' ? Object(_utils__WEBPACK_IMPORTED_MODULE_0__["randomRange"])(-initialVelocityY, 0) : Object(_utils__WEBPACK_IMPORTED_MODULE_0__["randomRange"])(initialVelocityY.min, initialVelocityY.max);
-    this.shape = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["randomInt"])(0, 2);
+    this.shape = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["randomInt"])(0, numberOfShapes);
     this.angle = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["degreesToRads"])(Object(_utils__WEBPACK_IMPORTED_MODULE_0__["randomRange"])(0, 360));
     this.angularSpin = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["randomRange"])(-0.1, 0.1);
     this.color = colors[Math.floor(Math.random() * colors.length)];
@@ -658,10 +651,10 @@ var Particle = /*#__PURE__*/function () {
       this.context.lineWidth = 2;
 
       if (drawShape && typeof drawShape === 'function') {
-        drawShape.call(this, this.context);
+        drawShape.call(this, this.context, this);
       } else {
         switch (this.shape) {
-          case ParticleShape.Circle:
+          case 0:
             {
               this.context.beginPath();
               this.context.arc(0, 0, this.radius, 0, 2 * Math.PI);
@@ -669,13 +662,13 @@ var Particle = /*#__PURE__*/function () {
               break;
             }
 
-          case ParticleShape.Square:
+          case 1:
             {
               this.context.fillRect(-this.w / 2, -this.h / 2, this.w, this.h);
               break;
             }
 
-          case ParticleShape.Strip:
+          default:
             {
               this.context.fillRect(-this.w / 6, -this.h / 2, this.w / 3, this.h);
               break;

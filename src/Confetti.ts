@@ -20,7 +20,7 @@ export interface IConfettiOptions {
    */
   numberOfPieces: number
   /**
-   * Number of shapes to choose from.
+   * (CUSTOM) Number of shapes to choose from.
    * @default 3
    */
   numberOfShapes: number
