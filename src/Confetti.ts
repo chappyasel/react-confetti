@@ -1,6 +1,7 @@
 import tweens from 'tween-functions'
 import { IRect } from './Rect'
 import ParticleGenerator from './ParticleGenerator'
+import Particle from './Particle'
 
 export interface IConfettiOptions {
   /**
@@ -18,6 +19,11 @@ export interface IConfettiOptions {
    * @default 200
    */
   numberOfPieces: number
+  /**
+   * Number of shapes to choose from.
+   * @default 3
+   */
+  numberOfShapes: number
   /**
    * Slows movement of pieces. (lower number = slower confetti)
    * @default 0.99
@@ -95,7 +101,7 @@ export interface IConfettiOptions {
   /**
    * Function to draw your own confetti shapes.
    */
-  drawShape?: (context: CanvasRenderingContext2D) => void
+  drawShape?: (context: CanvasRenderingContext2D, particle: Particle) => void
   /**
    * Function called when all confetti has fallen off-canvas.
    */
@@ -106,6 +112,7 @@ export const confettiDefaults: Pick<IConfettiOptions, Exclude<keyof IConfettiOpt
   width: typeof window !== 'undefined' ? window.innerWidth : 300,
   height: typeof window !== 'undefined' ? window.innerHeight : 200,
   numberOfPieces: 200,
+  numberOfShapes: 3,
   friction: 0.99,
   wind: 0,
   gravity: 0.1,

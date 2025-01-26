@@ -2,12 +2,6 @@
 import { randomRange, randomInt, degreesToRads } from './utils'
 import { IConfettiOptions } from './Confetti'
 
-export enum ParticleShape {
-  Circle = 0,
-  Square,
-  Strip,
-}
-
 enum RotationDirection {
   Positive = 1,
   Negative = -1,
@@ -21,6 +15,7 @@ export default class Particle {
       colors,
       initialVelocityX,
       initialVelocityY,
+      numberOfShapes,
       basicFloat,
     } = this.getOptions()
     this.context = context
@@ -31,7 +26,7 @@ export default class Particle {
     this.radius = randomRange(5, 10)
     this.vx = typeof initialVelocityX === 'number' ? randomRange(-initialVelocityX, initialVelocityX) : randomRange(initialVelocityX.min, initialVelocityX.max)
     this.vy = typeof initialVelocityY === 'number' ? randomRange(-initialVelocityY, 0) : randomRange(initialVelocityY.min, initialVelocityY.max)
-    this.shape = randomInt(0, 2)
+    this.shape = randomInt(0, numberOfShapes)
     this.angle = degreesToRads(randomRange(0, 360))
     this.angularSpin = randomRange(-0.1, 0.1)
     this.color = colors[Math.floor(Math.random() * colors.length)]
@@ -58,7 +53,7 @@ export default class Particle {
 
   vy: number
 
-  shape: ParticleShape
+  shape: number
 
   angle: number
 
@@ -109,20 +104,20 @@ export default class Particle {
     this.context.lineCap = 'round'
     this.context.lineWidth = 2
     if(drawShape && typeof drawShape === 'function') {
-      drawShape.call(this, this.context)
+      drawShape.call(this, this.context, this)
     } else {
       switch(this.shape) {
-        case ParticleShape.Circle: {
+        case 0: {
           this.context.beginPath()
           this.context.arc(0, 0, this.radius, 0, 2 * Math.PI)
           this.context.fill()
           break
         }
-        case ParticleShape.Square: {
+        case 1: {
           this.context.fillRect(-this.w / 2, -this.h / 2, this.w, this.h)
           break
         }
-        case ParticleShape.Strip: {
+        default: {
           this.context.fillRect(-this.w / 6, -this.h / 2, this.w / 3, this.h)
           break
         }
